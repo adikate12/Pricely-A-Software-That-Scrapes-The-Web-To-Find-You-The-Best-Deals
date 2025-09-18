@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .chart {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        select, input, button {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Activity Dashboard</h1>
+        
+        <div class="filters">
+            <select id="user-select">
+                <option value="">Select User</option>
+                <option value="admin@gmail.com">admin@gmail.com</option>
+                <option value="anonymous">Anonymous</option>
+            </select>
+            <select id="action-select">
+                <option value="">All Actions</option>
+                <option value="page_view">Page Views</option>
+                <option value="page_duration">Page Duration</option>
+                <option value="button_click">Button Clicks</option>
+                <option value="product_click">Product Clicks</option>
+                <option value="navigation">Navigation</option>
+                <option value="field_interaction">Field Interactions</option>
+                <option value="social_click">Social Clicks</option>
+                <option value="scroll_depth">Scroll Depth</option>
+            </select>
+            <button id="refresh-btn">Refresh Data</button>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>Activity Summary</h2>
+                <div id="activity-summary">
+                    <div class="loading">Loading activity summary...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Recent Activities</h2>
+                <div id="recent-activities">
+                    <div class="loading">Loading recent activities...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Activity Details</h2>
+            <div id="activity-details">
+                <div class="loading">Loading activity details...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // API endpoints
+        const API_BASE_URL = 'http://localhost:3000/api';
+        
+        // DOM elements
+        const userSelect = document.getElementById('user-select');
+        const actionSelect = document.getElementById('action-select');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const activitySummary = document.getElementById('activity-summary');
+        const recentActivities = document.getElementById('recent-activities');
+        const activityDetails = document.getElementById('activity-details');
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            
+            // Add event listeners
+            refreshBtn.addEventListener('click', loadData);
+            userSelect.addEventListener('change', loadData);
+            actionSelect.addEventListener('change', loadData);
+        });
+        
+        // Load all data
+        async function loadData() {
+            const userId = userSelect.value || 'admin@gmail.com';
+            const action = actionSelect.value;
+            
+            try {
+                // Load activity summary
+                const summaryResponse = await fetch(`${API_BASE_URL}/activity-tracker/summary/${userId}`);
+                const summaryData = await summaryResponse.json();
+                displayActivitySummary(summaryData);
+                
+                // Load recent activities
+                const activitiesResponse = await fetch(`${API_BASE_URL}/activity-tracker/user/${userId}`);
+                const activitiesData = await activitiesResponse.json();
+                displayRecentActivities(activitiesData, action);
+                
+                // Load activity details
+                displayActivityDetails(activitiesData, action);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                activitySummary.innerHTML = `<p class="error">Error loading data: ${error.message}</p>`;
+                recentActivities.innerHTML = `<p class="error">Error loading data: ${error.message}</p>`;
+                activityDetails.innerHTML = `<p class="error">Error loading data: ${error.message}</p>`;
+            }
+        }
+        
+        // Display activity summary
+        function displayActivitySummary(data) {
+            if (!data || !data.summary) {
+                activitySummary.innerHTML = '<p>No summary data available</p>';
+                return;
+            }
+            
+            const { activityCounts, pageDurations, productViews, buttonClicks } = data.summary;
+            
+            let html = '<div class="grid">';
+            
+            // Activity counts
+            html += '<div class="card">';
+            html += '<h3>Activity Counts</h3>';
+            html += '<table>';
+            html += '<tr><th>Action</th><th>Count</th></tr>';
+            
+            if (activityCounts && activityCounts.length > 0) {
+                activityCounts.forEach(item => {
+                    html += `<tr><td>${item._id}</td><td>${item.count}</td></tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="2">No activity data</td></tr>';
+            }
+            
+            html += '</table>';
+            html += '</div>';
+            
+            // Page durations
+            html += '<div class="card">';
+            html += '<h3>Page Durations</h3>';
+            html += '<table>';
+            html += '<tr><th>Page</th><th>Avg Duration (s)</th><th>Views</th></tr>';
+            
+            if (pageDurations && pageDurations.length > 0) {
+                pageDurations.forEach(item => {
+                    html += `<tr><td>${item._id}</td><td>${Math.round(item.avgDuration / 1000)}</td><td>${item.totalViews}</td></tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="3">No page duration data</td></tr>';
+            }
+            
+            html += '</table>';
+            html += '</div>';
+            
+            // Product views
+            html += '<div class="card">';
+            html += '<h3>Top Products</h3>';
+            html += '<table>';
+            html += '<tr><th>Product</th><th>Views</th></tr>';
+            
+            if (productViews && productViews.length > 0) {
+                productViews.forEach(item => {
+                    html += `<tr><td>${item.productName || item._id}</td><td>${item.count}</td></tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="2">No product view data</td></tr>';
+            }
+            
+            html += '</table>';
+            html += '</div>';
+            
+            // Button clicks
+            html += '<div class="card">';
+            html += '<h3>Top Buttons</h3>';
+            html += '<table>';
+            html += '<tr><th>Button</th><th>Clicks</th></tr>';
+            
+            if (buttonClicks && buttonClicks.length > 0) {
+                buttonClicks.forEach(item => {
+                    html += `<tr><td>${item.buttonText || item._id}</td><td>${item.count}</td></tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="2">No button click data</td></tr>';
+            }
+            
+            html += '</table>';
+            html += '</div>';
+            
+            html += '</div>';
+            
+            activitySummary.innerHTML = html;
+        }
+        
+        // Display recent activities
+        function displayRecentActivities(data, actionFilter) {
+            if (!data || !data.activities || data.activities.length === 0) {
+                recentActivities.innerHTML = '<p>No recent activities</p>';
+                return;
+            }
+            
+            let activities = data.activities;
+            
+            // Filter by action if specified
+            if (actionFilter) {
+                activities = activities.filter(activity => activity.action === actionFilter);
+            }
+            
+            if (activities.length === 0) {
+                recentActivities.innerHTML = '<p>No activities match the selected filter</p>';
+                return;
+            }
+            
+            let html = '<table>';
+            html += '<tr><th>Time</th><th>Action</th><th>Page</th><th>Details</th></tr>';
+            
+            activities.slice(0, 10).forEach(activity => {
+                const time = new Date(activity.timestamp).toLocaleString();
+                const details = getActivityDetails(activity);
+                
+                html += `<tr>
+                    <td>${time}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.page}</td>
+                    <td>${details}</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            
+            if (activities.length > 10) {
+                html += `<p>Showing 10 of ${activities.length} activities</p>`;
+            }
+            
+            recentActivities.innerHTML = html;
+        }
+        
+        // Display activity details
+        function displayActivityDetails(data, actionFilter) {
+            if (!data || !data.activities || data.activities.length === 0) {
+                activityDetails.innerHTML = '<p>No activity details available</p>';
+                return;
+            }
+            
+            let activities = data.activities;
+            
+            // Filter by action if specified
+            if (actionFilter) {
+                activities = activities.filter(activity => activity.action === actionFilter);
+            }
+            
+            if (activities.length === 0) {
+                activityDetails.innerHTML = '<p>No activities match the selected filter</p>';
+                return;
+            }
+            
+            let html = '<table>';
+            html += '<tr><th>Time</th><th>Action</th><th>Page</th><th>Session ID</th><th>Metadata</th></tr>';
+            
+            activities.forEach(activity => {
+                const time = new Date(activity.timestamp).toLocaleString();
+                const metadata = JSON.stringify(activity.metadata, null, 2);
+                
+                html += `<tr>
+                    <td>${time}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.page}</td>
+                    <td>${activity.sessionId}</td>
+                    <td><pre>${metadata}</pre></td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            
+            activityDetails.innerHTML = html;
+        }
+        
+        // Get activity details based on action type
+        function getActivityDetails(activity) {
+            const { action, metadata } = activity;
+            
+            switch (action) {
+                case 'page_view':
+                    return `Title: ${metadata.pageTitle || 'N/A'}`;
+                case 'page_duration':
+                    return `Duration: ${Math.round(metadata.durationSeconds)} seconds`;
+                case 'button_click':
+                    return `Button: ${metadata.buttonText || metadata.buttonId || 'Unknown'}`;
+                case 'product_click':
+                    return `Product: ${metadata.productName || 'Unknown'}`;
+                case 'navigation':
+                    return `Link: ${metadata.linkText || 'Unknown'} → ${metadata.linkHref || 'N/A'}`;
+                case 'field_interaction':
+                    return `Field: ${metadata.fieldId || 'Unknown'} (${metadata.fieldType || 'text'})`;
+                case 'social_click':
+                    return `Platform: ${metadata.platform || 'Unknown'}`;
+                case 'scroll_depth':
+                    return `Depth: ${metadata.depth || 0}%`;
+                default:
+                    return 'No details available';
+            }
+        }
+    </script>
+</body>
+</html> 

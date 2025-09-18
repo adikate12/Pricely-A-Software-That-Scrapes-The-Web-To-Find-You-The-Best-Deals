@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Products</title>
+    <link rel="stylesheet" href="brand.css"> <!-- Ensure this is your updated CSS file -->
+</head>
+<body>
+    <div id="product-container"></div>
+
+    <script>
+        // Fetch products from the JSON file
+        fetch('../Amazon/amazon_products.json') // Make sure to update this to your actual file name
+            .then(response => response.json())
+            .then(data => {
+                const productContainer = document.getElementById('product-container');
+
+                // Filter for Samsung products by checking if "Product Name" contains "Samsung"
+                const samsungProducts = data.filter(product => product["Product Name"].includes("Samsung"));
+
+                samsungProducts.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card');
+
+                    productCard.innerHTML = `
+                        <img src="${product['Image URL']}" alt="${product['Product Name']}" />
+                        <h2>${product['Product Name']}</h2>
+                        <div class="price-box">${product['Price']}</div>
+                        <a href="${product['Product Link']}" target="_blank" class="view-product-btn">View Product</a>
+                    `;
+
+                    productContainer.appendChild(productCard);
+                });
+
+                if (samsungProducts.length === 0) {
+                    productContainer.innerHTML = '<p>No Samsung products found.</p>';
+                }
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    </script>
+
+
+
+<script src="../Login/activityTracker.js"></script>      <!--For Recommendation-->
+
+ 
+
+
+</body>
+</html>

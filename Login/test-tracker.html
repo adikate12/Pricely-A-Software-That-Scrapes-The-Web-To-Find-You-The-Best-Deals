@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Tracker Test</title>
+    <script src="client-activity-tracker.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #log {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ddd;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Activity Tracker Test</h1>
+    <p>This page tests the activity tracking functionality.</p>
+    
+    <div>
+        <button id="test-button">Test Button Click</button>
+        <button id="test-page-view">Test Page View</button>
+        <button id="test-field-interaction">Test Field Interaction</button>
+    </div>
+    
+    <div>
+        <h3>Test Form</h3>
+        <input type="text" id="test-input" placeholder="Test input field">
+    </div>
+    
+    <div id="log">
+        <p>Activity log will appear here...</p>
+    </div>
+    
+    <script>
+        // Initialize the activity tracker
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with test user
+            initTracker('test_user', 'Test User');
+            
+            // Override console.log to also display in the log div
+            const originalConsoleLog = console.log;
+            console.log = function() {
+                const args = Array.from(arguments);
+                const logDiv = document.getElementById('log');
+                const logEntry = document.createElement('p');
+                logEntry.textContent = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : arg
+                ).join(' ');
+                logDiv.appendChild(logEntry);
+                logDiv.scrollTop = logDiv.scrollHeight;
+                originalConsoleLog.apply(console, arguments);
+            };
+            
+            // Test button click
+            document.getElementById('test-button').addEventListener('click', function() {
+                console.log('Test button clicked');
+            });
+            
+            // Test page view
+            document.getElementById('test-page-view').addEventListener('click', function() {
+                console.log('Testing page view tracking');
+                window.activityTracker.trackPageDuration();
+            });
+            
+            // Test field interaction
+            document.getElementById('test-field-interaction').addEventListener('click', function() {
+                console.log('Testing field interaction tracking');
+                const input = document.getElementById('test-input');
+                input.focus();
+                setTimeout(() => {
+                    input.blur();
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html> 

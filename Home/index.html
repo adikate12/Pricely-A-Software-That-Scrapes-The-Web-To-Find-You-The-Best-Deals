@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricely</title>
+
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- box-icons link -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+
+    <!-- remix-icons link -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+    />
+
+    <!-- Google-font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <!-- Activity Tracker -->
+    <script src="../Login/client-activity-tracker.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+  <a href="#" class="logo">Pricely</a>
+
+  <ul class="navlist">
+    <li><a href="#">Home</a></li>
+    <li><a href="../Brands/brands.html">Brands</a></li>
+    <li><a href="comparison2.html">Comparison</a></li>
+    <li><a href="">Best Seller</a></li>
+    <li><a href="../Contact/contact.html">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="search-container">
+      <input type="text" placeholder="Search" />
+      <i class="ri-search-line"></i>
+    </div>
+    <a href="#"><i class="ri-shopping-cart-line"></i></a>
+    <div class="profile-menu">
+      <a href="#" class="profile-icon"><i class="ri-user-line"></i></a>
+      <ul class="menu-list" id="profileMenu">
+        <li><a href="../Login/login.html">Logout</a></li>
+      </ul>
+    </div>
+    <button id="menu-button"><i class="bx bx-menu"></i></button>
+    <div class="bx bx-menu" id="menu-icon"></div>
+  </div>
+</header>
+
+<div class="side-drawer" id="side-drawer">
+  <a href="#" class="close-btn" id="close-button">&times;</a>
+  <ul>
+      <li><a href="../Amazon/amazon.html">Amazon Deals</a></li>
+      <li><a href="flipkart.html">Flipkart Deals</a></li>
+      <li><a href="../Croma/croma.html">Croma Deals</a></li>
+      <li><a href="../Reliance/reliance.html">Reliance Deals</a></li>
+  </ul>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- Side Drawer
+<div class="side-drawer" id="side-drawer">
+  <div class="drawer-header">
+    <h2>Menu</h2>
+    <div class="close-drawer" id="close-drawer">&times;</div>
+  </div>
+  <ul class="drawer-list">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Brands</a></li>
+    <li><a href="../Amazon/amazon.html">Products</a></li>
+    <li><a href="reliance.html">Best Seller</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</div> -->
+
+    
+
+    <!-- Home -->
+
+    <!-- Offers Sliding Panel Starts -->
+    <div class="slider-page">
+      <div class="slider-container">
+          <div class="banner-container" id="bannerContainer"></div>
+          <span id="prevArrow" class="nav-arrow">&#10094;</span>  <!-- Left arrow -->
+          <span id="nextArrow" class="nav-arrow">&#10095;</span>  <!-- Right arrow -->
+          <!-- Dots Container -->
+          <div class="dots-container" id="dotsContainer"></div>
+      </div>
+  </div>
+    <!-- Offers Sliding Panel Starts -->
+
+     <section class="home">
+      <div class="home-container">
+        <div class="home-text" data-aos="fade-up">
+          <!-- <h6>Top Picks</h6> -->
+          <h1>
+            Best Phones <br />
+            Just for You
+          </h1>
+          <p>
+            Explore the newest smartphones on the market. Whether you're looking
+            for cutting-edge technology or the best value for your money, Pricely
+            has the perfect phone for you. Upgrade today!
+          </p>
+          <div class="button-group">
+            <a href="#" class="btn">
+              Shop Now <i class="ri-arrow-right-line"></i>
+            </a>
+            <a href="#" id="recommendation-btn" class="btn btn-alt">
+              Get Recommendations <i class="ri-star-line"></i>
+            </a>            
+          </div>
+        </div>
+        <div class="home-image">
+          <img src="../assets/Main_BG/bg.png" alt="Smartphones" />
+        </div>
+      </div>
+    </section>
+    
+
+    <!-- Brands -->
+<div class="brands">
+  <div class="main-brands" data-aos="zoom-in">
+    <div class="brands-c">
+      <a href="https://www.oppo.com" target="_blank">
+        <img src="../assets/Brand_Logos/oppo_logo.png" alt="Oppo" />
+      </a>
+    </div>
+
+    <div class="brands-c">
+      <a href="https://www.oneplus.com" target="_blank">
+        <img src="../assets/Brand_Logos/oneplus_logo.png" alt="OnePlus" />
+      </a>
+    </div>
+
+    <div class="brands-c">
+      <a href="https://www.samsung.com" target="_blank">
+        <img src="../Brands/assets/samsung-logo.png" alt="Samsung" />
+      </a>
+    </div>
+
+    <div class="brands-c">
+      <a href="https://www.apple.com" target="_blank">
+        <img src="../Brands/assets/iphone-logo.png" alt="Apple" />
+      </a>
+    </div>
+
+    <div class="brands-c">
+      <a href="https://www.nokia.com/support/licensed-products/" target="_blank">
+        <img src="../Brands/assets/nokia-logo.png" alt="Poco" />
+      </a>
+    </div>
+
+    <div class="brands-c">
+      <a href="https://www.mi.com/in/phone/?srsltid=AfmBOoqQn757L9-atpiNN81yHCAuvKnxBRkepa6q4AemkGK0C3Ah4M2k" target="_blank">
+        <img src="../Brands/assets/xiaomi-logo.png" alt="Vivo" />
+      </a>
+    </div>
+  </div>
+</div>
+
+    <!-- Feature -->
+    <section class="feature">
+      <div class="feature-content" data-aos="fade-down">
+        <div class="box">
+          <div class="f-icon">
+            <i class="ri-bank-card-fill"></i>
+          </div>
+
+          <div class="f-text">
+            <h3>Latest Mobile Models</h3>
+            <p>
+              Explore the most recent mobile phones with advanced features and
+              cutting-edge technology.
+            </p>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="f-icon">
+            <i class="ri-customer-service-fill"></i>
+          </div>
+
+          <div class="f-text">
+            <h3>Best Price Guaranteed</h3>
+            <p>
+              Find competitive prices and exclusive deals on your favorite
+              mobile devices.
+            </p>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="f-icon">
+            <i class="ri-truck-fill"></i>
+          </div>
+
+          <div class="f-text">
+            <h3>Compare Mobile Prices</h3>
+            <p>
+              Easily compare prices across various platforms to find the best
+              deals on your favorite mobile phones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Selling -->
+    <section class="selling">
+      <div class="center-text" data-aos="fade-up">
+        <h2>Best Seller</h2>
+      </div>
+
+      <div class="selling-content" data-aos="zoom-in-up">
+        <div class="col">
+          <div class="col-img">
+            <img src="../assets/Main_BG/iphone.jpg" alt="" />
+          </div>
+
+          <div class="col-icon">
+            <a href="#"><i class="ri-heart-line"></i></a>
+            <a href="#"><i class="ri-eye-line"></i></a>
+            <a href="#"><i class="ri-shopping-cart-line"></i></a>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="col-img">
+            <img src="../assets/Main_BG/pixel-9-pro.png" alt="" />
+          </div>
+
+          <div class="col-icon">
+            <a href="#"><i class="ri-heart-line"></i></a>
+            <a href="#"><i class="ri-eye-line"></i></a>
+            <a href="#"><i class="ri-shopping-cart-line"></i></a>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="col-img">
+            <img src="../assets/Main_BG/s24.jpg" alt="" />
+          </div>
+
+          <div class="col-icon">
+            <a href="#"><i class="ri-heart-line"></i></a>
+            <a href="#"><i class="ri-eye-line"></i></a>
+            <a href="#"><i class="ri-shopping-cart-line"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter section -->
+    <section class="newsletter">
+      <div class="newsletter-content" data-aos="zoom-in">
+        <div class="newsletter-text">
+          <h2>Get On The List!</h2>
+          <p>Sign up with your email address to receive updates.</p>
+        </div>
+
+        <form action="">
+          <input type="email" placeholder="Your email..." required />
+          <input type="submit" value="Subscribe" class="btnnn" />
+        </form>
+      </div>
+    </section>
+
+    <!-- news -->
+    <section id="tech-news">
+      <h2>Latest in Mobile Technology</h2>
+      <div id="news-container"></div>
+    </section>
+
+    <!-- news ends -->
+
+    <!-- Footer -->
+    <section class="footer" data-aos="fade-down">
+      <div class="footer-box">
+        <h3>Explore</h3>
+        <a href="../Amazon/amazon.html">Amazon Deals</a>
+        <a href="flipkart.html">Flipkart Deals</a>
+        <a href="../Croma/croma.html">Croma Deals</a>
+        <a href="../Reliance/reliance.html">Reliance Deals</a>
+      </div>
+
+      <div class="footer-box">
+        <h3>Resources</h3>
+        <a href="../Brands/brands.html">Brands</a>
+        <a href="comparison2.html">Price Comparison</a>
+        <a href="recommendations.html">Recommendations</a>
+        <a href="#">Best Sellers</a>
+      </div>
+
+      <div class="footer-box">
+        <h3>Support</h3>
+        <a href="../Contact/contact.html">Contact Us</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Help Center</a>
+      </div>
+
+      <div class="footer-box">
+        <h3>Social</h3>
+        <div class="social">
+          <a href="#"><i class="ri-facebook-fill"></i></a>
+          <a href="#"><i class="ri-instagram-fill"></i></a>
+          <a href="#"><i class="ri-twitter-fill"></i></a>
+          <a href="#"><i class="ri-linkedin-fill"></i></a>
+        </div>
+      </div>
+    </section>
+    
+
+    <!-- Copyright -->
+    <div class="copyright">
+      <div class="end-text">
+        <p>Copyright © 2024 Pricely. All rights reserved.</p>
+      </div>
+    </div>
+
+    <!-- custom JS link -->
+    <script src="script.js"></script>
+
+    <script src="../Login/activityTracker.js"></script>      <!--For Recommendation-->
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        offset: 300,
+        duration: 1450,
+      });
+    </script>
+
+    <!-- Add profile dropdown script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const profileIcon = document.querySelector('.profile-icon');
+        const profileMenu = document.getElementById('profileMenu');
+        
+        // Initially hide the menu
+        profileMenu.style.display = 'none';
+        
+        profileIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isVisible = profileMenu.style.display === 'block';
+            profileMenu.style.display = isVisible ? 'none' : 'block';
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!profileMenu.contains(e.target) && !profileIcon.contains(e.target)) {
+                profileMenu.style.display = 'none';
+            }
+        });
+    });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    width: calc(25% - 20px); /* Adjust width and margin as needed */
+    box-sizing: border-box;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    opacity: 0; /* Initial opacity for fade-in effect */
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    object-fit: cover; /* Maintain aspect ratio while filling the space */
+}
+
+.product-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+/* Make the price a clickable button */
+.product-card .price {
+    font-size: 1.3em;
+    color: #fff;
+    background-color: #b12704;
+    border: 2px solid #b12704;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer; /* Makes it look clickable */
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effects for clickable price button */
+.product-card .price:hover {
+    background-color: #ff9900; /* Change background color on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Hover effects for product cards */
+.product-card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a shadow */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .product-card {
+        width: calc(33.33% - 20px); /* 3 cards per row */
+    }
+}
+
+@media (max-width: 800px) {
+    .product-card {
+        width: calc(50% - 20px); /* 2 cards per row */
+    }
+}
+
+@media (max-width: 500px) {
+    .product-card {
+        width: 100%; /* 1 card per row */
+    }
+}

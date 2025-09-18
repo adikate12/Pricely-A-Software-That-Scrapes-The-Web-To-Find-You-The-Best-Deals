@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Pricely</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --primary-text: #000000;
+            --secondary-text: #555555;
+            --accent: #2196F3;
+            --border: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Product Details Layout */
+        .product-details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px 0;
+        }
+        
+        .product-image-container {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-image {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-text);
+        }
+        
+        .product-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e53935;
+            margin-bottom: 20px;
+        }
+        
+        .product-meta {
+            margin-bottom: 30px;
+        }
+        
+        .product-meta p {
+            margin-bottom: 10px;
+            color: var(--secondary-text);
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1976D2;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-bg);
+            color: var(--primary-text);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product-details-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Pricely</a>
+                <nav>
+                    <ul>
+                        <li><a href="../Home/index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="recommendations.html">Recommendations</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="product-details-container" id="product-details">
+            <!-- Product details will be loaded here -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                window.location.href = 'recommendations.html';
+                return;
+            }
+            
+            // Fetch product details
+            fetch(`../../Login/get_product_details.php?id=${productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    const container = document.getElementById('product-details');
+                    container.innerHTML = `
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <h1 class="product-title">${product.name}</h1>
+                            <p class="product-price">${product.price_formatted}</p>
+                            <div class="product-meta">
+                                <p><strong>Brand:</strong> ${product.brand}</p>
+                                <p><strong>Source:</strong> ${product.source}</p>
+                                <p><strong>Storage:</strong> ${product.storage || 'N/A'}</p>
+                                <p><strong>RAM:</strong> ${product.ram || 'N/A'}</p>
+                            </div>
+                            <div class="product-actions">
+                                <a href="${product.link}" target="_blank" class="btn btn-primary">Buy Now</a>
+                                <button class="btn btn-secondary" onclick="addToCart('${product.id}')">Add to Cart</button>
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error loading product details:', error);
+                    window.location.href = 'recommendations.html';
+                });
+        });
+        
+        function addToCart(productId) {
+            // Implement add to cart functionality
+            console.log('Adding to cart:', productId);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,112 @@
+/* General Reset and Body Style */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light gray background */
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #1e1e2f; /* Darker background for contrast */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.navbar a {
+    color: #ffffff; /* White text */
+    text-decoration: none;
+    font-size: 22px;
+    margin: 0 20px; /* Space between links */
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.navbar a:hover {
+    color: #00bcd4; /* Aqua color on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Main Content Styling */
+main {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #1e1e2f; /* Dark color for heading */
+    font-weight: bold;
+}
+
+/* Grid Layout for Brands */
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px; /* Space between items */
+    padding: 0 20px;
+}
+
+/* Individual Brand Item Styling */
+.brand-item {
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Rounded corners */
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+    position: relative; /* Relative positioning for overlay effect */
+    cursor: pointer; /* Pointer cursor for better UX */
+}
+
+.brand-item img {
+    width: 100%;
+    height: 150px; /* Fixed height for images */
+    object-fit: cover; /* Maintain aspect ratio */
+    transition: transform 0.3s; /* Smooth zoom effect */
+}
+
+/* Brand Item Hover Effects */
+.brand-item:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+.brand-item:hover img {
+    transform: scale(1.05); /* Zoom effect on image hover */
+}
+
+.brand-item p {
+    margin: 15px 0;
+    font-weight: bold;
+    color: #333; /* Darker color for text */
+    font-size: 1.2em; /* Slightly larger font size */
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1e1e2f; /* Dark footer */
+    color: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow on top */
+    margin-top: 40px; /* Space above footer */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar items on small screens */
+        align-items: flex-start; /* Align items to start */
+    }
+
+    .navbar a {
+        margin: 10px 0; /* Space between links */
+    }
+
+    .brand-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Smaller columns for mobile */
+    }
+}

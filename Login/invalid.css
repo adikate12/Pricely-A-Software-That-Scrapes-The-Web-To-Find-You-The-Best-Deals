@@ -1,0 +1,57 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set a full height for the body and use flexbox for centering */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4; /* Light background for contrast */
+    font-family: Arial, sans-serif; /* Clean and modern font */
+}
+
+/* Container for error message */
+.error-container {
+    text-align: center;
+    background-color: #fff; /* White background for the error box */
+    padding: 2rem 2rem; /* Padding for the content */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 400px; /* Limit the width of the container */
+    width: 90%; /* Responsive width */
+}
+
+/* Heading style */
+.error-container h1 {
+    font-size: 2rem;
+    color: #d9534f; /* Bootstrap danger color */
+    margin-bottom: 1rem; /* Space below heading */
+}
+
+/* Paragraph style */
+.error-container p {
+    font-size: 1rem;
+    color: #555; /* Darker gray for the text */
+    margin-bottom: 1.5rem; /* Space below paragraph */
+}
+
+/* Link style */
+.error-container a {
+    display: inline-block; /* Make link behave like a button */
+    background-color: #5bc0de; /* Bootstrap info color */
+    color: white; /* White text on button */
+    padding: 10px 20px; /* Padding inside button */
+    border-radius: 5px; /* Rounded corners for button */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+/* Hover effect for the link */
+.error-container a:hover {
+    background-color: #31b0d5; /* Darker shade on hover */
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accounts</title>
+    <!-- Font Awesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="login.php" method="post" id="register-form">
+                <input type="hidden" name="action" value="register">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <div class="infield">
+                    <input type="text" name="username" id="register-username" placeholder="Username" required />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="email" name="email" id="register-email" placeholder="Email" required />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="password" name="password" id="register-password" placeholder="Password" required />
+                    <label></label>
+                </div>
+                <div id="register-error" class="error-message" style="display: none; color: red;"></div>
+                <div id="register-success" class="success-message" style="display: none; color: green;"></div>
+                <button type="submit" name="register">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="login.php" method="post" id="login-form">
+                <input type="hidden" name="action" value="login">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <div class="infield">
+                    <input type="email" name="email" id="login-email" placeholder="Email" required />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="password" name="password" id="login-password" placeholder="Password" required />
+                    <label></label>
+                </div>
+                <div id="login-error" class="error-message" style="display: none; color: red;"></div>
+                <a href="forgot_password.html" class="forgot">Forgot password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container" id="overlayCon">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>
+                        To keep connected with us please login with your personal info
+                    </p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start our journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+            <button id="overlayBtn"></button>
+        </div>
+    </div>
+
+    <!-- Original UI animations script -->
+    <script src="login.js"></script>
+    
+    <!-- New scripts for user authentication and activity tracking -->
+    <script src="activityTracker.js"></script>
+    <script src="auth-handler.js"></script>
+    <script src="activity.js"></script>
+    <script>
+    function handleLogout() {
+        // Clear the activity session
+        ActivityTracker.clearSession();
+        
+        // Clear user data from sessionStorage
+        sessionStorage.removeItem('user_email');
+        sessionStorage.removeItem('user_name');
+        
+        // Redirect to login page
+        window.location.href = '/login.html';
+    }
+
+    // Add logout button event listener
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+
+    // Modify your existing login success handler
+    function handleLoginSuccess(userData) {
+        // Clear any existing session first
+        ActivityTracker.clearSession();
+        
+        // Store user data in sessionStorage
+        sessionStorage.setItem('user_email', userData.email);
+        sessionStorage.setItem('user_name', userData.name);
+        
+        // Initialize activity tracker with user data
+        initTracker(userData.email, userData.name);
+        
+        // Redirect to dashboard or home page
+        window.location.href = '/dashboard';
+    }
+
+    // Add session check on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is already logged in
+        const email = sessionStorage.getItem('user_email');
+        const username = sessionStorage.getItem('user_name');
+        
+        if (email && username) {
+            // User is already logged in, initialize tracker
+            initTracker(email, username);
+        }
+    });
+    </script>
+</body>
+</html>

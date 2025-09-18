@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart vs Croma vs Amazon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+        }
+
+        .search-bar {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .product-card {
+            background-color: #333;
+            width: 300px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background-color: #fff;
+            padding: 10px;
+        }
+
+        .product-details {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            color: #ffdf00;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .price-container {
+            margin-bottom: 10px;
+        }
+
+        .product-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .product-link:hover {
+            background-color: #444;
+        }
+
+        .comparison-score {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Flipkart vs Croma vs Amazon</h1>
+
+<div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search for products..." onkeyup="liveSearch()">
+</div>
+
+<div class="container" id="product-container">
+    <!-- Products will be displayed here -->
+</div>
+
+<script>
+    // Function to fetch product data from the updated JSON
+    async function fetchProductData() {
+        try {
+            const response = await fetch('comparison_results.json');
+            const data = await response.json();
+            displayProducts(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // Function to display products
+    function displayProducts(products) {
+        const container = document.getElementById('product-container');
+        container.innerHTML = ''; // Clear previous content
+
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+
+            // Create product image element (from Flipkart)
+            const productImage = document.createElement('img');
+            productImage.className = 'product-image';
+            productImage.src = product['Flipkart Product image link'] || 'placeholder.jpg'; // Provide placeholder if no image
+
+            // Create product name
+            const productName = document.createElement('div');
+            productName.className = 'product-name';
+            productName.innerText = product['Croma Product Name'];
+
+            // Create price containers and links for Croma, Flipkart, Amazon
+            const priceContainerCroma = createPriceContainer('Croma', product['Croma Price'], product['Croma Link']);
+            const priceContainerFlipkart = createPriceContainer('Flipkart', product['Flipkart Price'], product['Flipkart Link']);
+            const priceContainerAmazon = createPriceContainer('Amazon', product['Amazon Price'], product['Amazon Product link']);
+
+            // Create comparison scores
+            const comparisonScore = document.createElement('div');
+            comparisonScore.className = 'comparison-score';
+            comparisonScore.innerHTML = `
+                Flipkart vs Croma Score: ${product['Flipkart vs Croma Score'].toFixed(2)}<br>
+                Amazon vs Croma Score: ${product['Amazon vs Croma Score'] ? product['Amazon vs Croma Score'].toFixed(2) : 'N/A'}
+            `;
+
+            // Append elements to the product card
+            const productDetails = document.createElement('div');
+            productDetails.className = 'product-details';
+            productDetails.appendChild(productName);
+            productDetails.appendChild(productImage);
+            productDetails.appendChild(priceContainerCroma);
+            productDetails.appendChild(priceContainerFlipkart);
+            productDetails.appendChild(priceContainerAmazon);
+            productDetails.appendChild(comparisonScore);
+
+            productCard.appendChild(productDetails);
+            container.appendChild(productCard);
+        });
+    }
+
+    // Helper function to create price container with links
+    function createPriceContainer(storeName, price, link) {
+        const container = document.createElement('div');
+        container.className = 'price-container';
+        container.innerHTML = `${storeName} Price: ${price}`;
+        
+        const storeLink = document.createElement('a');
+        storeLink.className = 'product-link';
+        storeLink.href = link;
+        storeLink.innerText = `View on ${storeName}`;
+        container.appendChild(storeLink);
+
+        return container;
+    }
+
+    // Fetch and display products when the page loads
+    window.onload = fetchProductData;
+
+    // Function to filter products based on search input
+    function liveSearch() {
+        const input = document.getElementById('search-input').value.toLowerCase();
+        const productCards = document.querySelectorAll('.product-card');
+
+        productCards.forEach(card => {
+            const productName = card.querySelector('.product-name').innerText.toLowerCase();
+            if (productName.includes(input)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+
+
+
+<script src="../Login/activityTracker.js"></script>      <!--For Recommendation-->
+
+ 
+
+
+</body>
+</html>
